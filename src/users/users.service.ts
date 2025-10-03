@@ -6,13 +6,8 @@ export class UsersService {
   readonly users = [
     {
       id: '1',
-      cpf: '12345678900',
-      password: 'password1',
-    },
-    {
-      id: '2',
-      cpf: '98765432100',
-      password: 'password2',
+      cpf: '13271936986',
+      password: '3d4f5y62d',
     },
   ];
 
