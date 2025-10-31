@@ -10,16 +10,7 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../../users/entities/user.entity';
 
-export enum ProjectStatus {
-  DRAFT = 'draft',
-  ACTIVE = 'active',
-  VOTING = 'voting',
-  APPROVED = 'approved',
-  REJECTED = 'rejected',
-  IMPLEMENTED = 'implemented',
-}
-
-export enum ProjectCategory {
+export enum ProposalCategory {
   INFRASTRUCTURE = 'infrastructure',
   EDUCATION = 'education',
   HEALTH = 'health',
@@ -31,46 +22,42 @@ export enum ProjectCategory {
   OTHER = 'other',
 }
 
-@Entity('projects')
-export class Project {
+export enum ProposalStatus {
+  DRAFT = 'draft',
+  ACTIVE = 'active',
+  VOTING = 'voting',
+  APPROVED = 'approved',
+  REJECTED = 'rejected',
+  IMPLEMENTED = 'implemented',
+}
+
+@Entity('community_proposals')
+export class CommunityProposal {
   @ApiProperty()
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @ApiProperty()
-  @Column()
+  @Column({ length: 45 })
   title: string;
 
   @ApiProperty()
-  @Column('text')
+  @Column({ length: 45 })
   description: string;
 
-  @ApiProperty({ enum: ProjectCategory })
+  @ApiProperty({ enum: ProposalCategory })
   @Column({
     type: 'enum',
-    enum: ProjectCategory,
+    enum: ProposalCategory,
   })
-  category: ProjectCategory;
+  category: ProposalCategory;
 
-  @ApiProperty({ enum: ProjectStatus, default: ProjectStatus.DRAFT })
+  @ApiProperty({ enum: ProposalStatus })
   @Column({
     type: 'enum',
-    enum: ProjectStatus,
-    default: ProjectStatus.DRAFT,
+    enum: ProposalStatus,
   })
-  status: ProjectStatus;
-
-  @ApiProperty()
-  @Column({ length: 50 })
-  neighborhood: string;
-
-  @ApiProperty()
-  @Column({ default: 0 })
-  votesFor: number;
-
-  @ApiProperty()
-  @Column({ default: 0 })
-  votesAgainst: number;
+  status: ProposalStatus;
 
   @ManyToOne(() => User, { eager: true })
   @JoinColumn({ name: 'authorId' })

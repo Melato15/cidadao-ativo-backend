@@ -30,8 +30,8 @@ export class User {
   name: string;
 
   @ApiProperty()
-  @Column({ nullable: true })
-  cpf?: string;
+  @Column({ unique: true })
+  cpf: string;
 
   @Column()
   @Exclude()

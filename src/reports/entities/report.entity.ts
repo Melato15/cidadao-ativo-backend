@@ -10,16 +10,7 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../../users/entities/user.entity';
 
-export enum ProjectStatus {
-  DRAFT = 'draft',
-  ACTIVE = 'active',
-  VOTING = 'voting',
-  APPROVED = 'approved',
-  REJECTED = 'rejected',
-  IMPLEMENTED = 'implemented',
-}
-
-export enum ProjectCategory {
+export enum ReportCategory {
   INFRASTRUCTURE = 'infrastructure',
   EDUCATION = 'education',
   HEALTH = 'health',
@@ -31,46 +22,60 @@ export enum ProjectCategory {
   OTHER = 'other',
 }
 
-@Entity('projects')
-export class Project {
+export enum ReportStatus {
+  DRAFT = 'draft',
+  ACTIVE = 'active',
+  VOTING = 'voting',
+  APPROVED = 'approved',
+  REJECTED = 'rejected',
+  IMPLEMENTED = 'implemented',
+}
+
+export enum ReportPriority {
+  LOW = 'low',
+  MEDIUM = 'medium',
+  HIGH = 'high',
+  URGENT = 'urgent',
+}
+
+@Entity('reports')
+export class Report {
   @ApiProperty()
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @ApiProperty()
-  @Column()
+  @Column({ length: 255 })
   title: string;
 
   @ApiProperty()
   @Column('text')
   description: string;
 
-  @ApiProperty({ enum: ProjectCategory })
+  @ApiProperty({ enum: ReportCategory })
   @Column({
     type: 'enum',
-    enum: ProjectCategory,
+    enum: ReportCategory,
   })
-  category: ProjectCategory;
+  category: ReportCategory;
 
-  @ApiProperty({ enum: ProjectStatus, default: ProjectStatus.DRAFT })
+  @ApiProperty({ enum: ReportStatus })
   @Column({
     type: 'enum',
-    enum: ProjectStatus,
-    default: ProjectStatus.DRAFT,
+    enum: ReportStatus,
   })
-  status: ProjectStatus;
+  status: ReportStatus;
+
+  @ApiProperty({ enum: ReportPriority })
+  @Column({
+    type: 'enum',
+    enum: ReportPriority,
+  })
+  priority: ReportPriority;
 
   @ApiProperty()
-  @Column({ length: 50 })
-  neighborhood: string;
-
-  @ApiProperty()
-  @Column({ default: 0 })
-  votesFor: number;
-
-  @ApiProperty()
-  @Column({ default: 0 })
-  votesAgainst: number;
+  @Column('text', { nullable: true })
+  location?: string;
 
   @ManyToOne(() => User, { eager: true })
   @JoinColumn({ name: 'authorId' })
