@@ -45,6 +45,10 @@ export class CommunityProposal {
   @Column({ length: 45 })
   description: string;
 
+  @ApiProperty()
+  @Column({ length: 100 })
+  neighborhood: string;
+
   @ApiProperty({ enum: ProposalCategory })
   @Column({
     type: 'enum',

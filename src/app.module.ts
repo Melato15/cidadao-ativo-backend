@@ -8,6 +8,7 @@ import { ProjectsModule } from './projects/projects.module';
 import { VotesModule } from './votes/votes.module';
 import { AuthModule } from './auth/auth.module';
 import { ReportsModule } from './reports/reports.module';
+import { CommunityProposalsModule } from './community-proposals/community-proposals.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ReportsModule } from './reports/reports.module';
     VotesModule,
     AuthModule,
     ReportsModule,
+    CommunityProposalsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

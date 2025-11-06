@@ -37,8 +37,8 @@ describe('AuthController', () => {
   describe('login', () => {
     it('should return access token for valid credentials', async () => {
       const loginDto: LoginDto = {
-        cpf: '13271936986',
-        password: '3d4f5y62d',
+        cpf: '12345678901',
+        password: 'validPassword123',
       };
       const expectedResult = { access_token: 'mock.jwt.token' };
 
@@ -56,8 +56,8 @@ describe('AuthController', () => {
 
     it('should return 200 OK status code', async () => {
       const loginDto: LoginDto = {
-        cpf: '13271936986',
-        password: '3d4f5y62d',
+        cpf: '12345678901',
+        password: 'validPassword123',
       };
       mockAuthService.citizenLogin.mockResolvedValue({ access_token: 'token' });
 
@@ -105,7 +105,7 @@ describe('AuthController', () => {
 
     it('should handle empty password', async () => {
       const loginDto: LoginDto = {
-        cpf: '13271936986',
+        cpf: '12345678901',
         password: '',
       };
 
@@ -135,8 +135,8 @@ describe('AuthController', () => {
 
     it('should handle formatted CPF with dots and dash', async () => {
       const loginDto: LoginDto = {
-        cpf: '132.719.369-86',
-        password: '3d4f5y62d',
+        cpf: '123.456.789-01',
+        password: 'validPassword123',
       };
       const expectedResult = { access_token: 'token' };
 
@@ -146,14 +146,14 @@ describe('AuthController', () => {
 
       expect(result).toEqual(expectedResult);
       expect(mockAuthService.citizenLogin).toHaveBeenCalledWith(
-        '132.719.369-86',
-        '3d4f5y62d',
+        '123.456.789-01',
+        'validPassword123',
       );
     });
 
     it('should handle special characters in password', async () => {
       const loginDto: LoginDto = {
-        cpf: '13271936986',
+        cpf: '12345678901',
         password: '!@#$%^&*()',
       };
 
@@ -168,7 +168,7 @@ describe('AuthController', () => {
 
     it('should handle very long password', async () => {
       const loginDto: LoginDto = {
-        cpf: '13271936986',
+        cpf: '12345678901',
         password: 'a'.repeat(10000),
       };
 
@@ -183,8 +183,8 @@ describe('AuthController', () => {
 
     it('should pass through JWT token correctly', async () => {
       const loginDto: LoginDto = {
-        cpf: '13271936986',
-        password: '3d4f5y62d',
+        cpf: '12345678901',
+        password: 'validPassword123',
       };
       const longToken =
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ';
@@ -200,8 +200,8 @@ describe('AuthController', () => {
 
     it('should handle multiple concurrent login attempts', async () => {
       const loginDto: LoginDto = {
-        cpf: '13271936986',
-        password: '3d4f5y62d',
+        cpf: '12345678901',
+        password: 'validPassword123',
       };
 
       mockAuthService.citizenLogin.mockResolvedValue({ access_token: 'token' });
@@ -225,8 +225,8 @@ describe('AuthController', () => {
   describe('Error Propagation', () => {
     it('should propagate service errors', async () => {
       const loginDto: LoginDto = {
-        cpf: '13271936986',
-        password: '3d4f5y62d',
+        cpf: '12345678901',
+        password: 'validPassword123',
       };
 
       mockAuthService.citizenLogin.mockRejectedValue(
@@ -238,8 +238,8 @@ describe('AuthController', () => {
 
     it('should handle timeout errors', async () => {
       const loginDto: LoginDto = {
-        cpf: '13271936986',
-        password: '3d4f5y62d',
+        cpf: '12345678901',
+        password: 'validPassword123',
       };
 
       mockAuthService.citizenLogin.mockRejectedValue(new Error('Timeout'));
@@ -266,7 +266,7 @@ describe('AuthController', () => {
 
     it('should handle undefined password', async () => {
       const loginDto = {
-        cpf: '13271936986',
+        cpf: '12345678901',
         password: undefined,
       } as any;
 
@@ -281,8 +281,8 @@ describe('AuthController', () => {
 
     it('should handle numeric CPF', async () => {
       const loginDto = {
-        cpf: 13271936986,
-        password: '3d4f5y62d',
+        cpf: 12345678901,
+        password: 'validPassword123',
       } as any;
 
       mockAuthService.citizenLogin.mockRejectedValue(
@@ -296,8 +296,8 @@ describe('AuthController', () => {
 
     it('should handle whitespace in credentials', async () => {
       const loginDto: LoginDto = {
-        cpf: '  13271936986  ',
-        password: '  3d4f5y62d  ',
+        cpf: '  12345678901  ',
+        password: '  validPassword123  ',
       };
 
       mockAuthService.citizenLogin.mockResolvedValue({ access_token: 'token' });
@@ -305,8 +305,8 @@ describe('AuthController', () => {
       await controller.login(loginDto);
 
       expect(mockAuthService.citizenLogin).toHaveBeenCalledWith(
-        '  13271936986  ',
-        '  3d4f5y62d  ',
+        '  12345678901  ',
+        '  validPassword123  ',
       );
     });
   });

@@ -41,8 +41,7 @@ export class CreateReportDto {
   @IsString()
   location?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsString()
-  @IsNotEmpty()
-  authorId: string;
+  authorId?: string;
 }

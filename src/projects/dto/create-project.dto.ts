@@ -3,6 +3,7 @@ import {
   IsString,
   IsEnum,
   IsNotEmpty,
+  IsOptional,
   MinLength,
   MaxLength,
 } from 'class-validator';
@@ -34,8 +35,8 @@ export class CreateProjectDto {
   @MaxLength(50)
   neighborhood: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  authorId: string;
+  authorId?: string;
 }
