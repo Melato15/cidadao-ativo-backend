@@ -72,7 +72,7 @@ export class CommunityProposal {
   authorId: string;
 
   @ApiProperty()
-  @CreateDateColumn({ name: 'created_at' })
+  @CreateDateColumn({ name: 'createdAt' })
   createdAt: Date;
 
   @ApiProperty()
