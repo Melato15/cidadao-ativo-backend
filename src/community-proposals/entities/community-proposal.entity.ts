@@ -76,6 +76,6 @@ export class CommunityProposal {
   createdAt: Date;
 
   @ApiProperty()
-  @UpdateDateColumn({ name: 'updated_at' })
+  @UpdateDateColumn({ name: 'updatedAt' })
   updatedAt: Date;
 }
