@@ -17,11 +17,7 @@ import {
 import { VotesService } from './votes.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { VoteType } from './entities/vote.entity';
-
-class VoteDto {
-  type: 'up' | 'down';
-  comment?: string;
-}
+import { CreateVoteDto } from './dto/vote.dto';
 
 @ApiTags('votes')
 @Controller('votes')
@@ -35,7 +31,7 @@ export class VotesController {
   @ApiParam({ name: 'projectId', description: 'ID do projeto' })
   async vote(
     @Param('projectId') projectId: string,
-    @Body() voteDto: VoteDto,
+    @Body() voteDto: CreateVoteDto,
     @Request() req: any,
   ) {
     const voteType = voteDto.type === 'up' ? VoteType.UP : VoteType.DOWN;
