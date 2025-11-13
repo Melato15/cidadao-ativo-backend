@@ -17,17 +17,41 @@ import { CommunityProposalsModule } from './community-proposals/community-propos
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        type: 'mysql',
-        host: configService.get('DB_HOST'),
-        port: configService.get('DB_PORT'),
-        username: configService.get('DB_USERNAME'),
-        password: configService.get('DB_PASSWORD'),
-        database: configService.get('DB_DATABASE'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: configService.get('NODE_ENV') === 'development',
-        charset: 'utf8mb4',
-      }),
+      useFactory: (configService: ConfigService) => {
+        const jawsDbUrl = configService.get('JAWSDB_URL');
+
+        if (jawsDbUrl) {
+          // Parse JawsDB URL for Heroku production
+          const url = new URL(jawsDbUrl);
+          return {
+            type: 'mysql' as const,
+            host: url.hostname,
+            port: parseInt(url.port) || 3306,
+            username: url.username,
+            password: url.password,
+            database: url.pathname.substring(1), // Remove leading '/'
+            entities: [__dirname + '/**/*.entity{.ts,.js}'],
+            synchronize: false, // Never use synchronize in production
+            charset: 'utf8mb4',
+            ssl: {
+              rejectUnauthorized: false,
+            },
+          };
+        }
+
+        // Local development configuration
+        return {
+          type: 'mysql' as const,
+          host: configService.get<string>('DB_HOST', 'localhost'),
+          port: configService.get<number>('DB_PORT', 3306),
+          username: configService.get<string>('DB_USERNAME', 'root'),
+          password: configService.get<string>('DB_PASSWORD', ''),
+          database: configService.get<string>('DB_DATABASE', 'test'),
+          entities: [__dirname + '/**/*.entity{.ts,.js}'],
+          synchronize: configService.get('NODE_ENV') === 'development',
+          charset: 'utf8mb4',
+        };
+      },
       inject: [ConfigService],
     }),
     UsersModule,
