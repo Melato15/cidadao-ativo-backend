@@ -19,10 +19,13 @@ import { CommunityProposalsModule } from './community-proposals/community-propos
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
         const jawsDbUrl = configService.get('JAWSDB_URL');
-        
+
         console.log('=== Database Configuration ===');
         console.log('JAWSDB_URL:', jawsDbUrl ? 'Found' : 'Not found');
-        console.log('process.env.JAWSDB_URL:', process.env.JAWSDB_URL ? 'Found' : 'Not found');
+        console.log(
+          'process.env.JAWSDB_URL:',
+          process.env.JAWSDB_URL ? 'Found' : 'Not found',
+        );
 
         if (jawsDbUrl) {
           // Parse JawsDB URL for Heroku production
