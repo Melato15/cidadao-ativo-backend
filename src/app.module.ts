@@ -19,10 +19,15 @@ import { CommunityProposalsModule } from './community-proposals/community-propos
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
         const jawsDbUrl = configService.get('JAWSDB_URL');
+        
+        console.log('=== Database Configuration ===');
+        console.log('JAWSDB_URL:', jawsDbUrl ? 'Found' : 'Not found');
+        console.log('process.env.JAWSDB_URL:', process.env.JAWSDB_URL ? 'Found' : 'Not found');
 
         if (jawsDbUrl) {
           // Parse JawsDB URL for Heroku production
           const url = new URL(jawsDbUrl);
+          console.log('Using JawsDB MySQL - Host:', url.hostname);
           return {
             type: 'mysql' as const,
             host: url.hostname,
@@ -40,6 +45,7 @@ import { CommunityProposalsModule } from './community-proposals/community-propos
         }
 
         // Local development configuration
+        console.log('Using local MySQL configuration');
         return {
           type: 'mysql' as const,
           host: configService.get<string>('DB_HOST', 'localhost'),
