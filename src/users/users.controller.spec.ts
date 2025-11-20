@@ -160,7 +160,11 @@ describe('UsersController', () => {
         cpf: '98765432100',
         password: 'newpassword',
       };
-      const savedUser = { ...createUserDto, id: '1', password: '$2b$10$hashedPassword' };
+      const savedUser = {
+        ...createUserDto,
+        id: '1',
+        password: '$2b$10$hashedPassword',
+      };
       const { password, ...expectedResult } = savedUser;
       mockUsersService.create.mockResolvedValue(savedUser as any);
 
@@ -193,7 +197,11 @@ describe('UsersController', () => {
         cpf: '11111111111',
         password: 'C0mpl3x!P@ssw0rd#123',
       };
-      const savedUser = { ...createUserDto, id: '1', password: '$2b$10$hashedPassword' };
+      const savedUser = {
+        ...createUserDto,
+        id: '1',
+        password: '$2b$10$hashedPassword',
+      };
       mockUsersService.create.mockResolvedValue(savedUser as any);
 
       const result = await controller.create(createUserDto);
@@ -214,7 +222,11 @@ describe('UsersController', () => {
         cpf: '22222222222',
         password: '',
       };
-      const savedUser = { ...createUserDto, id: '1', password: '$2b$10$hashedPassword' };
+      const savedUser = {
+        ...createUserDto,
+        id: '1',
+        password: '$2b$10$hashedPassword',
+      };
       mockUsersService.create.mockResolvedValue(savedUser as any);
 
       const result = await controller.create(createUserDto);
@@ -247,7 +259,11 @@ describe('UsersController', () => {
 
       for (let i = 0; i < users.length; i++) {
         const user = users[i];
-        const savedUser = { ...user, id: `${i + 1}`, password: '$2b$10$hashedPassword' };
+        const savedUser = {
+          ...user,
+          id: `${i + 1}`,
+          password: '$2b$10$hashedPassword',
+        };
         const { password, ...expectedResult } = savedUser;
         mockUsersService.create.mockResolvedValue(savedUser as any);
         const result = await controller.create(user);
