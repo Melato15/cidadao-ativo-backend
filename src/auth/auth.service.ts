@@ -15,8 +15,6 @@ export class AuthService {
     password: string,
   ): Promise<{ access_token: string }> {
     const user = await this.usersService.findByCpf(cpf);
-    console.log(cpf);
-    console.warn(user);
     if (!user || !(await this.usersService.validatePassword(cpf, password))) {
       throw new UnauthorizedException({
         description: 'Credenciais inválidas.',

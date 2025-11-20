@@ -160,11 +160,14 @@ describe('UsersController', () => {
         cpf: '98765432100',
         password: 'newpassword',
       };
-      mockUsersService.create.mockResolvedValue(createUserDto);
+      const savedUser = { ...createUserDto, id: '1', password: '$2b$10$hashedPassword' };
+      const { password, ...expectedResult } = savedUser;
+      mockUsersService.create.mockResolvedValue(savedUser as any);
 
       const result = await controller.create(createUserDto);
 
-      expect(result).toEqual(createUserDto);
+      expect(result).toEqual(expectedResult);
+      expect(result).not.toHaveProperty('password');
       expect(mockUsersService.create).toHaveBeenCalledWith(createUserDto);
       expect(mockUsersService.create).toHaveBeenCalledTimes(1);
     });
@@ -190,11 +193,13 @@ describe('UsersController', () => {
         cpf: '11111111111',
         password: 'C0mpl3x!P@ssw0rd#123',
       };
-      mockUsersService.create.mockResolvedValue(createUserDto);
+      const savedUser = { ...createUserDto, id: '1', password: '$2b$10$hashedPassword' };
+      mockUsersService.create.mockResolvedValue(savedUser as any);
 
       const result = await controller.create(createUserDto);
 
-      expect(result.password).toBe('C0mpl3x!P@ssw0rd#123');
+      expect(result).not.toHaveProperty('password');
+      expect(result.email).toBe('complex@test.com');
     });
 
     it('should not require authentication (no AuthGuard)', () => {
@@ -209,11 +214,13 @@ describe('UsersController', () => {
         cpf: '22222222222',
         password: '',
       };
-      mockUsersService.create.mockResolvedValue(createUserDto);
+      const savedUser = { ...createUserDto, id: '1', password: '$2b$10$hashedPassword' };
+      mockUsersService.create.mockResolvedValue(savedUser as any);
 
       const result = await controller.create(createUserDto);
 
-      expect(result.password).toBe('');
+      expect(result).not.toHaveProperty('password');
+      expect(result.email).toBe('empty@test.com');
     });
 
     it('should handle multiple user creation calls', async () => {
@@ -238,10 +245,14 @@ describe('UsersController', () => {
         },
       ];
 
-      for (const user of users) {
-        mockUsersService.create.mockResolvedValue(user);
+      for (let i = 0; i < users.length; i++) {
+        const user = users[i];
+        const savedUser = { ...user, id: `${i + 1}`, password: '$2b$10$hashedPassword' };
+        const { password, ...expectedResult } = savedUser;
+        mockUsersService.create.mockResolvedValue(savedUser as any);
         const result = await controller.create(user);
-        expect(result).toEqual(user);
+        expect(result).toEqual(expectedResult);
+        expect(result).not.toHaveProperty('password');
       }
 
       expect(mockUsersService.create).toHaveBeenCalledTimes(3);
