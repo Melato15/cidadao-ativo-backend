@@ -32,8 +32,4 @@ export class CreateCommunityProposalDto {
   @IsString()
   @MaxLength(100)
   neighborhood: string;
-
-  @ApiProperty({ enum: ProposalStatus, example: ProposalStatus.ACTIVE })
-  @IsEnum(ProposalStatus)
-  status: ProposalStatus;
 }
