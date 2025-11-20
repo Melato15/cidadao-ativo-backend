@@ -161,8 +161,10 @@ describe('UsersController', () => {
         password: 'newpassword',
       };
       const savedUser = {
-        ...createUserDto,
         id: '1',
+        email: 'test@example.com',
+        name: 'Test User',
+        cpf: '98765432100',
         password: '$2b$10$hashedPassword',
       };
       const { password, ...expectedResult } = savedUser;
@@ -198,8 +200,10 @@ describe('UsersController', () => {
         password: 'C0mpl3x!P@ssw0rd#123',
       };
       const savedUser = {
-        ...createUserDto,
         id: '1',
+        email: 'complex@test.com',
+        name: 'Complex User',
+        cpf: '11111111111',
         password: '$2b$10$hashedPassword',
       };
       mockUsersService.create.mockResolvedValue(savedUser as any);
@@ -223,8 +227,10 @@ describe('UsersController', () => {
         password: '',
       };
       const savedUser = {
-        ...createUserDto,
         id: '1',
+        email: 'empty@test.com',
+        name: 'Empty Pass User',
+        cpf: '22222222222',
         password: '$2b$10$hashedPassword',
       };
       mockUsersService.create.mockResolvedValue(savedUser as any);
@@ -260,8 +266,10 @@ describe('UsersController', () => {
       for (let i = 0; i < users.length; i++) {
         const user = users[i];
         const savedUser = {
-          ...user,
           id: `${i + 1}`,
+          email: user.email,
+          name: user.name,
+          cpf: user.cpf,
           password: '$2b$10$hashedPassword',
         };
         const { password, ...expectedResult } = savedUser;

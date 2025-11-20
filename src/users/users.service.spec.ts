@@ -14,7 +14,7 @@ jest.mock('bcrypt', () => ({
 
 describe('UsersService', () => {
   let service: UsersService;
-  let repository: Repository<User>;
+  let repository: jest.Mocked<Repository<User>>;
 
   const mockUser = {
     id: '1',
@@ -34,6 +34,8 @@ describe('UsersService', () => {
   };
 
   beforeEach(async () => {
+    jest.clearAllMocks();
+    
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UsersService,
@@ -45,9 +47,7 @@ describe('UsersService', () => {
     }).compile();
 
     service = module.get<UsersService>(UsersService);
-    repository = module.get<Repository<User>>(getRepositoryToken(User));
-
-    jest.clearAllMocks();
+    repository = module.get(getRepositoryToken(User));
   });
 
   it('should be defined', () => {
