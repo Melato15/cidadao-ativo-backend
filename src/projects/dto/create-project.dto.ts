@@ -25,10 +25,6 @@ export class CreateProjectDto {
   @IsEnum(ProjectCategory)
   category: ProjectCategory;
 
-  @ApiProperty({ enum: ProjectStatus, required: false })
-  @IsEnum(ProjectStatus)
-  status?: ProjectStatus;
-
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
