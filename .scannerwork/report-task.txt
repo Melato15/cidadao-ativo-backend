@@ -1,7 +1,7 @@
 organization=melato15
 projectKey=Melato15_cidadao-ativo-backend
 serverUrl=https://sonarcloud.io
-serverVersion=8.0.0.68867
+serverVersion=8.0.0.76711
 dashboardUrl=https://sonarcloud.io/dashboard?id=Melato15_cidadao-ativo-backend
-ceTaskId=AZn-lrJFfhXFjE03rAJI
-ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AZn-lrJFfhXFjE03rAJI
+ceTaskId=AZqiroSchKc5m1WMlRBN
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AZqiroSchKc5m1WMlRBN
