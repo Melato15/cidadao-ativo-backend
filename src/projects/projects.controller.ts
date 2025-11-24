@@ -14,6 +14,9 @@ import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { AuthGuard } from '../auth/auth.guard';
+import { Roles } from '../auth/roles.decorator';
+import { RolesGuard } from '../auth/roles.guard';
+import { UserRole } from '../users/entities/user.entity';
 
 @ApiTags('projects')
 @Controller('projects')
@@ -21,7 +24,8 @@ export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
   @Post()
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRole.COUNCILOR, UserRole.ADMIN)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Criar novo projeto' })
   create(@Body() createProjectDto: CreateProjectDto, @Request() req: any) {
@@ -50,7 +54,8 @@ export class ProjectsController {
   }
 
   @Patch(':id')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRole.COUNCILOR, UserRole.ADMIN)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Atualizar projeto' })
   update(
@@ -62,7 +67,8 @@ export class ProjectsController {
   }
 
   @Delete(':id')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRole.COUNCILOR, UserRole.ADMIN)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Excluir projeto' })
   remove(@Param('id') id: string, @Request() req: any) {
