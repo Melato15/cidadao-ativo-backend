@@ -13,7 +13,7 @@ export class AuthService {
   async citizenLogin(
     cpf: string,
     password: string,
-  ): Promise<{ access_token: string }> {
+  ): Promise<{ access_token: string; role: string }> {
     const user = await this.usersService.findByCpf(cpf);
     if (!user || !(await this.usersService.validatePassword(cpf, password))) {
       throw new UnauthorizedException({
@@ -30,7 +30,7 @@ export class AuthService {
     };
   }
 
-  async coucilorLogin(
+  async councilorLogin(
     cpf: string,
     password: string,
   ): Promise<{ access_token: string; role: string }> {
