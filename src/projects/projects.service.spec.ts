@@ -1,7 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProjectsService } from './projects.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Project, ProjectCategory, ProjectStatus } from './entities/project.entity';
+import {
+  Project,
+  ProjectCategory,
+  ProjectStatus,
+} from './entities/project.entity';
 import { Repository } from 'typeorm';
 import { NotFoundException, ForbiddenException } from '@nestjs/common';
 
@@ -25,7 +29,9 @@ const mockProjectsRepository = {
   save: jest.fn().mockReturnValue(mockProject),
   find: jest.fn().mockReturnValue([mockProject]),
   findOne: jest.fn().mockReturnValue(mockProject),
-  update: jest.fn().mockReturnValue({ affected: 1, raw: [], generatedMaps: [] }),
+  update: jest
+    .fn()
+    .mockReturnValue({ affected: 1, raw: [], generatedMaps: [] }),
   delete: jest.fn().mockReturnValue({ affected: 1, raw: [] }),
 };
 

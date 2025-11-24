@@ -36,6 +36,18 @@ export class CommunityProposalsController {
     return this.communityProposalsService.findAll();
   }
 
+  @Get('stats/category')
+  @ApiOperation({ summary: 'Get proposal statistics by category' })
+  getStatsByCategory() {
+    return this.communityProposalsService.getStatsByCategory();
+  }
+
+  @Get('stats/monthly')
+  @ApiOperation({ summary: 'Get proposal statistics by month' })
+  getStatsMonthly() {
+    return this.communityProposalsService.getStatsMonthly();
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Get a community proposal by ID' })
   findOne(@Param('id') id: string) {

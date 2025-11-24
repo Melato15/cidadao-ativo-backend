@@ -70,4 +70,39 @@ export class CommunityProposalsService {
 
     await this.proposalRepository.delete(id);
   }
+
+  async getStatsByCategory() {
+    const result = await this.proposalRepository
+      .createQueryBuilder('proposal')
+      .select('proposal.category', 'category')
+      .addSelect('COUNT(proposal.id)', 'count')
+      .groupBy('proposal.category')
+      .getRawMany();
+
+    return result.map((item) => ({
+      category: item.category,
+      count: parseInt(item.count, 10),
+    }));
+  }
+
+  async getStatsMonthly() {
+    const result = await this.proposalRepository
+      .createQueryBuilder('proposal')
+      .select("DATE_FORMAT(proposal.createdAt, '%b')", 'month')
+      .addSelect('MONTH(proposal.createdAt)', 'monthNum')
+      .addSelect('COUNT(proposal.id)', 'propostas')
+      .addSelect(
+        "SUM(CASE WHEN proposal.status = 'approved' THEN 1 ELSE 0 END)",
+        'aprovadas',
+      )
+      .groupBy('month, monthNum')
+      .orderBy('monthNum', 'ASC')
+      .getRawMany();
+
+    return result.map((item) => ({
+      month: item.month,
+      propostas: parseInt(item.propostas, 10),
+      aprovadas: parseInt(item.aprovadas, 10),
+    }));
+  }
 }
