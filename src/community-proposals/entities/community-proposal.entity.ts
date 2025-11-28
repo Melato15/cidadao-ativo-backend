@@ -60,6 +60,7 @@ export class CommunityProposal {
   @Column({
     type: 'enum',
     enum: ProposalStatus,
+    default: ProposalStatus.DRAFT,
   })
   status: ProposalStatus;
 

@@ -7,7 +7,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateCommunityProposalDto } from './dto/create-community-proposal.dto';
 import { UpdateCommunityProposalDto } from './dto/update-community-proposal.dto';
-import { CommunityProposal } from './entities/community-proposal.entity';
+import {
+  ProposalStatus,
+  CommunityProposal,
+} from './entities/community-proposal.entity';
 
 @Injectable()
 export class CommunityProposalsService {
@@ -23,6 +26,7 @@ export class CommunityProposalsService {
     const proposal = this.proposalRepository.create({
       ...createDto,
       authorId: userId,
+      status: ProposalStatus.DRAFT,
     });
 
     return this.proposalRepository.save(proposal);
